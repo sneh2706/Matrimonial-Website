@@ -1,5 +1,6 @@
 <?php include_once("includes/basic_includes.php");?>
 <?php include_once("functions.php"); ?>
+<?php require_once("includes/dbconn.php");?>
 <?php
 
 $id=$_GET['id'];
@@ -8,7 +9,6 @@ if(isloggedin()){
 } else{
    header("location:login.php");
 }
-
 //calling photo uploader function
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){ uploadphoto($id); }
 ?>
@@ -65,21 +65,34 @@ $(document).ready(function(){
         <li class="current-page">Login</li>
      </ul>
    </div>
+
+
    <div class="services">
+
    	  <div class="col-sm-6 login_left">
-	   <form action="" method="POST" enctype="multipart/form-data">
-  	    <div class="form-item form-type-textfield form-item-name">
-	      <label for="edit-name">Upload Your Photo(Upto 4 images, Use 300 x 250 dimensions) <span class="form-required" title="This field is required.">*</span></label>
-	      <input type="file" id="edit-name" name="pic1" class="form-file required">
-        <input type="file" id="edit-name" name="pic2" class="form-file required">
-        <input type="file" id="edit-name" name="pic3" class="form-file required">
-        <input type="file" id="edit-name" name="pic4" class="form-file required">
-	    </div>
-	    <div class="form-actions">
-	    	<input type="submit" id="edit-submit" name="op" value="Upload" class="btn_1 submit">
-	    </div>
-	   </form>
-	  </div>
+
+
+
+
+
+
+	  <form method="post" action=" " enctype="multipart/form-data">
+<input type="hidden" name="size" value="1000000">
+<div>
+<input type="file" name="image">
+</div>
+<div>
+<textarea name="text" cols="40" rows="4" placeholders="say something"></textarea>
+</div>
+<div>
+<input type="submit" name="upload" value="Upload Image">
+</div>
+</form>
+          </div>
+ 
+
+
+
 	  <div class="col-sm-6">
 	    <ul class="sharing">
 			<li><a href="#" class="facebook" title="Facebook"><i class="fa fa-boxed fa-fw fa-facebook"></i> Share on Facebook</a></li>
@@ -89,8 +102,14 @@ $(document).ready(function(){
 		  	<li><a href="#" class="mail" title="Email"><i class="fa fa-boxed fa-fw fa-envelope-o"></i> E-mail</a></li>
 		</ul>
 	  </div>
+
+
+
+
 	  <div class="clearfix"> </div>
    </div>
+
+
   </div>
 </div>
 
