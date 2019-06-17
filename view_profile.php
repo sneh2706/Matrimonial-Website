@@ -1,6 +1,7 @@
 <?php include_once("includes/basic_includes.php");?>
 <?php include_once("functions.php"); ?>
 <?php require_once("includes/dbconn.php");?>
+
 <?php
 if(isloggedin()){
  //do nothing stay here
@@ -20,16 +21,16 @@ $row=mysqli_fetch_assoc($result);
 
 	$fname=$row['firstname'];
 	$lname=$row['lastname'];
-	$sex=$row['sex'];
+	/*$sex=$row['sex'];
 	$email=$row['email'];
-	$dob=$row['dateofbirth'];
+	$dob=$row['dateofbirth'];*/
 	$religion=$row['religion'];
 	$caste = $row['caste'];
 	$subcaste=$row['subcaste'];
 	$country = $row['country'];
 	$state=$row['state'];
 	$district=$row['district'];
-	$age=$row['age'];
+	/*$age=$row['age'];*/
 	$maritalstatus=$row['maritalstatus'];
 	$profileby=$row['profilecreatedby'];
 	$education=$row['education'];
@@ -53,29 +54,21 @@ $row=mysqli_fetch_assoc($result);
 	$sis=$row['no_sis'];
 	$aboutme=$row['aboutme'];
 
-//end of getting profile detils
+//end of getting profile details
 
 
 
-	$pic1="";
-	$pic2="";
-	$pic3="";
-	$pic4="";
+	$sql = "SELECT * FROM images WHERE id='$id'" ;
+    $result = mysqli_query($conn,$sql);
+    $row=mysqli_fetch_array($result);
+	
 //getting image filenames from db
-$sql2="SELECT * FROM photos WHERE cust_id = $profileid";
-$result2 = mysqlexec($sql2);
-if($result2){
-	$row2=mysqli_fetch_array($result2);
-	$pic1=$row2['pic1'];
-	$pic2=$row2['pic2'];
-	$pic3=$row2['pic3'];
-	$pic4=$row2['pic4'];
-}
-}else{
-	echo "<script>alert(\"Invalid Profile ID\")</script>";
-}
+
+
 
 ?>
+
+
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -130,22 +123,14 @@ $(document).ready(function(){
    	 	<h2>Profile Id : <?php echo $profileid;?></h2>
    	 	<div class="col_3">
    	        <div class="col-sm-4 row_2">
-				<div class="flexslider">
-					 <ul class="slides">
-						<li data-thumb="profile/<?php echo $profileid;?>/<?php echo $pic1;?>">
-							<img src="profile/<?php echo $profileid;?>/<?php echo $pic1;?>" />
-						</li>
-						<li data-thumb="profile/<?php echo $profileid;?>/<?php echo $pic2;?>">
-							<img src="profile/<?php echo $profileid;?>/<?php echo $pic2;?>" />
-						</li>
-						<li data-thumb="profile/<?php echo $profileid;?>/<?php echo $pic3;?>">
-							<img src="profile/<?php echo $profileid;?>/<?php echo $pic3;?>" />
-						</li>
-						<li data-thumb="profile/<?php echo $profileid;?>/<?php echo $pic4;?>">
-							<img src="profile/<?php echo $profileid;?>/<?php echo $pic4;?>" />
-						</li>
-					 </ul>
-				  </div>
+
+
+<?php
+   	        	echo "<img  src='images/" .$row['image']."' height='200' width='200' alt='No Photos' >";
+   	        	?>
+						
+					 
+				  
 			</div>
 			<div class="col-sm-8 row_1">
 				<table class="table_working_hours">
@@ -154,8 +139,8 @@ $(document).ready(function(){
 							<td class="day_label">Name :</td>
 							<td class="day_value"><?php echo $fname . " " .$lname; ?></td>
 						</tr><tr class="opened_1">
-							<td class="day_label">Age / Height :</td>
-							<td class="day_value"><?php echo $age . " Years"; ?>/<?php echo $height . " Cm";?> </td>
+							<td class="day_label">Height :</td>
+							<td class="day_value"><?php echo $height . " Cm";?> </td>
 						</tr>
 					  	<tr class="opened">
 							<td class="day_label">Religion :</td>
@@ -214,8 +199,8 @@ $(document).ready(function(){
 								</tr>
 							    
 							    <tr class="opened">
-									<td class="day_label">Age / Height :</td>
-									<td class="day_value"><?php echo $age; ?>/<?php echo $height;?> cm</td>
+									<td class="day_label">Height :</td>
+									<td class="day_value"><?php echo $height;?> cm</td>
 								</tr>
 							    <tr class="opened">
 									<td class="day_label">Physical Status :</td>
@@ -235,10 +220,7 @@ $(document).ready(function(){
 				         <div class="col-md-6 basic_1-left">
 				          <table class="table_working_hours">
 				        	<tbody>
-				        		<tr class="opened_1">
-									<td class="day_label">Age :</td>
-									<td class="day_value"><?php echo $age;?></td>
-								</tr>
+				        		
 							    <tr class="opened">
 									<td class="day_label">Mother Tongue :</td>
 									<td class="day_value"><?php echo $mothertounge;?></td>
@@ -276,11 +258,6 @@ $(document).ready(function(){
 				        		<tr class="opened">
 									<td class="day_label">Caste :</td>
 									<td class="day_value"><?php echo $caste;?></td>
-								</tr>
-							    <tr class="opened">
-									<td class="day_label">
- of Birth :</td>
-									<td class="day_value closed"><span><?php echo $dob;?></span></td>
 								</tr>
 							</tbody>
 				          </table>
@@ -361,11 +338,8 @@ $(document).ready(function(){
 				 </div>
 
 <?php
-
-
-
 //getting partner prefernce
-$sql = "SELECT * FROM partnerprefs WHERE custId = $profileid";
+$sql = "SELECT * FROM partnerprefs WHERE cust_id = $id";
 $result = mysqlexec($sql);
 $row= mysqli_fetch_assoc($result);
 
@@ -384,6 +358,7 @@ $country=$row['country'];
 $descr=$row['descr'];
 
 
+
 ?>
 				 <div role="tabpanel" class="tab-pane fade" id="profile1" aria-labelledby="profile-tab1">
 				    <div class="basic_1 basic_2">
@@ -392,7 +367,7 @@ $descr=$row['descr'];
 				        	<tbody>
 				        		<tr class="opened">
 									<td class="day_label">Age   :</td>
-									<td class="day_value"><?php echo $agemin . " to " .$agemax; ?></td>
+									<td class="day_value"><?php echo $agemin . " to " . $agemax;?></td>
 								</tr>
 				        		<tr class="opened">
 									<td class="day_label">Marital Status :</td>
@@ -462,27 +437,33 @@ $descr=$row['descr'];
         <div class="view_profile view_profile2">
         	<h3>View Recent Profiles</h3>
     <?php
-     $sql="SELECT * FROM customer ORDER BY profilecreationdate ASC";
+     $sql="SELECT * FROM customer WHERE id!='$id' ORDER BY id ASC";
       $result=mysqlexec($sql);
-      $count=1;
+      //$count=1;
       while($row=mysqli_fetch_assoc($result)){
             $profid=$row['cust_id'];
           //getting photo
-          $sql="SELECT * FROM photos WHERE cust_id=$profid";
-          $result2=mysqlexec($sql);
-          $photo=mysqli_fetch_assoc($result2);
-          $pic=$photo['pic1'];
+            $pic1='';
+          $sql2="SELECT * FROM images WHERE id=$profid";
+          $result2=mysqlexec($sql2);
+          if($result2){
+							$row2=mysqli_fetch_array($result2);
+							$pic1=$row2['image'];
+						}
+          //$photo=mysqli_fetch_assoc($result2);
+          //$pic=$photo['pic1'];
           echo "<ul class=\"profile_item\">";
             echo"<a href=\"view_profile.php?id={$profid}\">";
-              echo "<li class=\"profile_item-img\"><img src=\"profile/". $profid."/".$pic ."\"" . "class=\"img-responsive\" alt=\"\"/></li>";
+            echo "<img src=\"images/{$pic1}\" alt=\"\" height=\"150\" width=\"150\" class=\"hover-animation image-zoom-in img-responsive\"/>";
+            //echo "<li class=\"profile_item-img\"><img src=\"images/{$pic1}\" "class=\"img-responsive\" alt=\"\"/></li>";
                echo "<li class=\"profile_item-desc\">";
                   echo "<h4>" . $row['firstname'] . " " . $row['lastname'] . "</h4>";
-                  echo "<p>" . $row['age']. "Yrs," . $row['religion'] . "</p>";
+                  /*echo "<p>" . $row['age']. "Yrs," . $row['religion'] . "</p>";*/
                   echo "<h5>" . "View Full Profile" . "</h5>";
                echo "</li>";
       echo "</a>";
       echo "</ul>";
-      $count++;
+      //$count++;
       }
      ?>
            
@@ -509,3 +490,7 @@ $(window).load(function() {
 </script>   
 </body>
 </html>	
+
+<?php
+	}
+	?>
