@@ -109,7 +109,7 @@ $(document).ready(function(){
 						//
 					//Printing the html
 					echo "<li><div class=\"col_1\"><a href=\"view_profile.php?id={$profileid}\">";
-					echo "<img src=\"images/{$pic1}\" style=\"border-radius:50%;\" alt=\"\" class=\"hover-animation image-zoom-in img-responsive\"/>";
+					echo "<img src=\"images/{$pic1}\" alt=\"\" class=\"hover-animation image-zoom-in img-responsive\"/>";
 					echo "<div class=\"layer m_1 hidden-link hover-animation delay1 fade-in\">";
 					//echo "<div class=\"center-middle\">{$name}</div>";
 					echo "</div>";
